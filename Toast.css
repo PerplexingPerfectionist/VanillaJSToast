@@ -8,7 +8,6 @@
     width: 200px;
     max-width: 300px;
     background: #fff;
-    padding: 0.5rem;
     border: 1px solid #aaa;
     border-radius: .25rem;
     box-shadow: -1px 1px 10px rgba(0, 0, 0, 0.3);
@@ -30,11 +29,10 @@
 
 .toast-progress {
     position: absolute;
-    display: block;
     bottom: 0;
-    left: 0;
+    margin: 0 0.5rem -0.5rem -0.5rem;
     height: 4px;
-    width: 100%;
+    width: 200px;
     background: #b7b7b7;
     animation-name: toastProgress;
     animation-duration: 0s;
@@ -45,7 +43,14 @@
 .toast-content-wrapper {
     position: relative;
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
+    margin: 0.5rem;
+}
+
+.toast-message-wrapper {
+    display: flex;
+    flex-direction: row;
     align-items: center;
 }
 
@@ -111,6 +116,14 @@
 .info-icon > svg {
     width: 0.75rem;
     color: #3498db;
+}
+
+.toast-title {
+    flex: 1;
+    font-size: 0.9rem;
+    color: #000000;
+    font-weight: 600;
+    margin-top: -0.25rem;
 }
 
 .toast-message {
@@ -192,7 +205,7 @@
 
 @keyframes toastProgress {
     0% {
-        width: 100%;
+        width: 200px;
     }
 
     100% {

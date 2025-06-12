@@ -1,4 +1,9 @@
-﻿const icon = {
+﻿// TODO: Add custom icon option
+// TODO: Only constuct elements if used
+// TODO: Animation options (Top, Bottom, Left, Right)
+// TODO: Support multiple toasts in container
+
+const icon = {
   success:
     '<span class="success-icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.--><path fill="#2ecc71" d="M438.6 105.4c12.5 12.5 12.5 32.8 0 45.3l-256 256c-12.5 12.5-32.8 12.5-45.3 0l-128-128c-12.5-12.5-12.5-32.8 0-45.3s32.8-12.5 45.3 0L160 338.7 393.4 105.4c12.5-12.5 32.8-12.5 45.3 0z"/></svg></span>',
   danger:
@@ -13,14 +18,32 @@ function CloseToast(toastId) {
   target.classList.add("closing");
 }
 
+/**
+ * Constructs a toast notification using Javascript and the given parameters. Toast is appended to the DOM body.
+ * @param {string} message - A short message
+ * @param {string} [title] - Title of the toast
+ * @param {string} [toastType=info] Type of toast (info, success, warning, danger)
+ * @param {string} [duration=5000] Duration of the toast in milliseconds. Can be set "Static" to require the user to close the toast.
+ */
 function ShowToast(
-  message = "Test Message",
+  message,
+  title,
   toastType = "info",
   duration = 5000
 ) {
-  // Params: <string> message, <string> toastType (from icon list), <int> || <string> duration (Can be "static")
+  // Validate parameters
+  if (message.length <= 0) {
+    return;
+  }
+
+  toastType = toastType.toLowerCase();
   if (!Object.keys(icon).includes(toastType)) toastType = "info";
 
+  if (duration != "static" && duration.length <= 0) {
+    duration = 5000;
+  }
+
+  // Start construction
   let box = document.createElement("div");
   box.id = `toast${Math.floor(Math.random() * 1000).toString()}`;
   box.classList.add(
@@ -31,6 +54,9 @@ function ShowToast(
 
   let toastContentWrapper = document.createElement("div");
   toastContentWrapper.className = "toast-content-wrapper";
+
+  let toastMessageWrapper = document.createElement("div");
+  toastMessageWrapper.className = "toast-message-wrapper";
 
   let closeBtn = document.createElement("div");
   closeBtn.className = "close-btn";
@@ -52,6 +78,14 @@ function ShowToast(
   button.appendChild(svg);
   closeBtn.appendChild(button);
 
+  let toastTitle;
+
+  if (title.length > 0) {
+    toastTitle = document.createElement("div");
+    toastTitle.className = "toast-title";
+    toastTitle.textContent = title;
+  }
+
   let toastIcon = document.createElement("div");
   toastIcon.className = "toast-icon";
   toastIcon.innerHTML = icon[toastType];
@@ -64,8 +98,10 @@ function ShowToast(
   toastProgress.className = "toast-progress";
 
   toastContentWrapper.appendChild(closeBtn);
-  toastContentWrapper.appendChild(toastIcon);
-  toastContentWrapper.appendChild(toastMessage);
+  if (title) toastContentWrapper.appendChild(toastTitle);
+  toastMessageWrapper.appendChild(toastIcon);
+  toastMessageWrapper.appendChild(toastMessage);
+  toastContentWrapper.appendChild(toastMessageWrapper);
   toastContentWrapper.appendChild(toastProgress);
 
   box.appendChild(toastContentWrapper);
@@ -75,9 +111,7 @@ function ShowToast(
       duration / 1000
     }s`;
 
-    box.style.animationDelay = `0s, ${
-      duration / 1000
-    }s`;
+    box.style.animationDelay = `0s, ${duration / 1000}s`;
   }
 
   const toastAlready = document.body.querySelector(".toast");

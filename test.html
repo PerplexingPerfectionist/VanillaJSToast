@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Toast Test</title>
+
+    <script type="text/javascript" src="Toast.js"></script>
+    <link rel="stylesheet" href="Toast.css" />
+
+    <style>
+      .test {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .test > * > label {
+        display: inline-block;
+        width: 75px;
+      }
+      .test > * > button {
+        margin-top: 1rem;
+      }
+    </style>
+  </head>
+  <body class="test">
+    <div>
+      <label for="toastTitle">Title: </label>
+      <input
+        type="text"
+        id="toastTitle"
+        placeholder="Enter a title (optional)"
+      />
+    </div>
+    <div>
+      <label for="toastMessage">Message: </label>
+      <input
+        type="text"
+        id="toastMessage"
+        placeholder="Enter your message here"
+      />
+    </div>
+    <div>
+      <label for="toastType">Type: </label>
+      <select type="select" id="toastType">
+        <option>Info</option>
+        <option>Success</option>
+        <option>Warning</option>
+        <option>Danger</option>
+      </select>
+    </div>
+    <div>
+      <label for="toastDuration">Duration: </label>
+      <input
+        type="text"
+        id="toastDuration"
+        placeholder="Duration in milliseconds"
+      />
+    </div>
+    <div>
+      <button
+        type="button"
+        onclick="ShowToast(document.getElementById('toastMessage').value, document.getElementById('toastTitle').value, document.getElementById('toastType').value, document.getElementById('toastDuration').value)"
+      >
+        Show Toast
+      </button>
+    </div>
+  </body>
+</html>
