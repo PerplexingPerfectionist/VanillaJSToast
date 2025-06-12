@@ -17,12 +17,13 @@ Add the following files to your project.
 To call a toast use the syntax below below
 
 ```
-ShowToast(message, toastStyle, duration)
+ShowToast(message, title, toastStyle, duration)
 ```
 
 **Parameters**
 
 - Message (Default: "Test message") - A string that will be shown as text on the toast.
+- Title (nullable) - Title for the toast.
 - toastStyle (Default: "info") - One of the following strings.
   - "success"
   - "warning"
