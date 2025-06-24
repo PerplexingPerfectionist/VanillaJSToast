@@ -24,12 +24,14 @@ function CloseToast(toastId) {
  * @param {string} [title] - Title of the toast
  * @param {string} [toastType=info] Type of toast (info, success, warning, danger)
  * @param {string} [duration=5000] Duration of the toast in milliseconds. Can be set "Static" to require the user to close the toast.
+ * @param {bool} [close=true] Toggles rendering on the close button. This option is overridden if "static" duration is set.
  */
 function ShowToast(
   message,
   title,
   toastType = "info",
-  duration = 5000
+  duration = 5000,
+  close = true
 ) {
   // Validate parameters
   if (message.length <= 0) {
@@ -41,6 +43,10 @@ function ShowToast(
 
   if (duration != "static" && duration.length <= 0) {
     duration = 5000;
+  }
+
+  if (duration == "static") {
+    close = true;
   }
 
   // Start construction
@@ -58,25 +64,29 @@ function ShowToast(
   let toastMessageWrapper = document.createElement("div");
   toastMessageWrapper.className = "toast-message-wrapper";
 
-  let closeBtn = document.createElement("div");
-  closeBtn.className = "close-btn";
+  let closeBtn;
 
-  let button = document.createElement("button");
-  button.type = "button";
-  button.id = "closeToast";
+  if (close) {
+    closeBtn = document.createElement("div");
+    closeBtn.className = "close-btn";
 
-  let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-  svg.setAttribute("viewBox", "0 0 384 512");
+    let button = document.createElement("button");
+    button.type = "button";
+    button.id = "closeToast";
 
-  let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
-  path.setAttribute(
-    "d",
-    "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
-  );
+    let svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svg.setAttribute("viewBox", "0 0 384 512");
 
-  svg.appendChild(path);
-  button.appendChild(svg);
-  closeBtn.appendChild(button);
+    let path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+    path.setAttribute(
+      "d",
+      "M342.6 150.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L192 210.7 86.6 105.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L146.7 256 41.4 361.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L192 301.3 297.4 406.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L237.3 256 342.6 150.6z"
+    );
+
+    svg.appendChild(path);
+    button.appendChild(svg);
+    closeBtn.appendChild(button);
+  }
 
   let toastTitle;
 
@@ -97,7 +107,7 @@ function ShowToast(
   let toastProgress = document.createElement("div");
   toastProgress.className = "toast-progress";
 
-  toastContentWrapper.appendChild(closeBtn);
+  if (close) toastContentWrapper.appendChild(closeBtn);
   if (title) toastContentWrapper.appendChild(toastTitle);
   toastMessageWrapper.appendChild(toastIcon);
   toastMessageWrapper.appendChild(toastMessage);
@@ -119,7 +129,9 @@ function ShowToast(
 
   document.body.appendChild(box);
 
-  closeBtn.addEventListener("click", (e) => {
-    CloseToast(box.id);
-  });
+  if (close) {
+    closeBtn.addEventListener("click", (e) => {
+      CloseToast(box.id);
+    });
+  }
 }

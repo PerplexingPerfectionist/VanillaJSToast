@@ -57,9 +57,12 @@
       />
     </div>
     <div>
+      <label for="toastClose">Close: </label><input id="toastClose" type="checkbox" checked />
+    </div>
+    <div>
       <button
         type="button"
-        onclick="ShowToast(document.getElementById('toastMessage').value, document.getElementById('toastTitle').value, document.getElementById('toastType').value, document.getElementById('toastDuration').value)"
+        onclick="ShowToast(document.getElementById('toastMessage').value, document.getElementById('toastTitle').value, document.getElementById('toastType').value, document.getElementById('toastDuration').value, document.getElementById('toastClose').checked)"
       >
         Show Toast
       </button>

@@ -31,3 +31,4 @@ ShowToast(message, title, toastStyle, duration)
   - "info"
 - Duration (Default: 5000) - the number of milliseconds to show your toast.
   - Duration can be an integer or "static" - when set to "static", the toast must be closed using the "X" button in the top right corner of the toast.
+- Close (Default: true) - Toggles the rendering of the close button. This is overridden if "static" duration has been set.
